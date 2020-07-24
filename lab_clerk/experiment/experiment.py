@@ -9,8 +9,6 @@ class Experiment:
     EVALUATION_FILE = "evaluations.pkl"
 
     def __init__(self, directory: str, metrics: list, attributes: dict):
-        rank = attributes["rank"]
-        del attributes["rank"]
         self.experiment_id = hashlib.md5(str(attributes).encode()).hexdigest()
         self.metrics = metrics
         self.attributes = attributes
