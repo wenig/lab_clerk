@@ -1,17 +1,19 @@
 import pandas as pd
-from uuid import uuid1
 import datetime as dt
 import os
+import hashlib
 
 
 class Experiment:
     EXPERIMENT_FILE = "experiments.pkl"
     EVALUATION_FILE = "evaluations.pkl"
 
-    def __init__(self, directory: str = ".", metrics: list = None, attributes: dict = None):
-        self.experiment_id = uuid1()
-        self.metrics = metrics or []
-        self.attributes = attributes or {}
+    def __init__(self, directory: str, metrics: list, attributes: dict):
+        rank = attributes["rank"]
+        del attributes["rank"]
+        self.experiment_id = hashlib.md5(str(attributes).encode()).hexdigest()
+        self.metrics = metrics
+        self.attributes = attributes
         self.directory = directory
         self.experiments_file = os.path.join(self.directory, Experiment.EXPERIMENT_FILE)
         self.evaluations_file = os.path.join(self.directory, Experiment.EVALUATION_FILE)
